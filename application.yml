@@ -1,2 +1,6 @@
 server:
   port: $PORT
+spring:
+  redis:
+    host: $RSSB_DB_HOST
+    port: $6379

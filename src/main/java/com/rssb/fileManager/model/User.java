@@ -4,12 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.UUID;
 
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "user_id")
     private final UUID userId = UUID.randomUUID();
@@ -27,13 +31,13 @@ public class User {
     public User() {
     }
 
-    public User(String names, String nationalId, String phoneNumber, String gender, String email) {
-        this.names = names;
-        this.nationalId = nationalId;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.email = email;
-    }
+//    public User(String names, String nationalId, String phoneNumber, String gender, String email) {
+//        this.names = names;
+//        this.nationalId = nationalId;
+//        this.phoneNumber = phoneNumber;
+//        this.gender = gender;
+//        this.email = email;
+//    }
 
     public UUID getUserId() {
         return userId;
