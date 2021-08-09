@@ -1,4 +1,0 @@
-spring:
-  redis:
-    host: $RSSB_DB_HOST
-    port: $REDIS_PORT
