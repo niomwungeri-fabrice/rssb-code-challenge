@@ -1,10 +1,8 @@
 package com.rssb.fileManager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -27,6 +25,8 @@ public class User implements Serializable {
     private String gender;
     @Column(name = "email")
     private String email;
+    @Transient
+    private List<String> errors;
 
     public User() {
     }
@@ -83,6 +83,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +100,7 @@ public class User implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
+                ", errors=" + errors +
                 '}';
     }
 }
