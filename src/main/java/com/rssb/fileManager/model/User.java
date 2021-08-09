@@ -1,15 +1,17 @@
 package com.rssb.fileManager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "user_id")
     private final UUID userId = UUID.randomUUID();
@@ -23,17 +25,19 @@ public class User {
     private String gender;
     @Column(name = "email")
     private String email;
+    @Transient
+    private List<String> errors;
 
     public User() {
     }
 
-    public User(String names, String nationalId, String phoneNumber, String gender, String email) {
-        this.names = names;
-        this.nationalId = nationalId;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.email = email;
-    }
+//    public User(String names, String nationalId, String phoneNumber, String gender, String email) {
+//        this.names = names;
+//        this.nationalId = nationalId;
+//        this.phoneNumber = phoneNumber;
+//        this.gender = gender;
+//        this.email = email;
+//    }
 
     public UUID getUserId() {
         return userId;
@@ -79,6 +83,14 @@ public class User {
         this.email = email;
     }
 
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -88,6 +100,7 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
+                ", errors=" + errors +
                 '}';
     }
 }
