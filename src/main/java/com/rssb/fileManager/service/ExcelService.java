@@ -1,8 +1,8 @@
 package com.rssb.fileManager.service;
 
-import com.rssb.fileManager.model.User;
-import com.rssb.fileManager.repo.UserRepo;
-import com.rssb.fileManager.repo.UserRepoRedis;
+import com.rssb.fileManager.model.Record;
+import com.rssb.fileManager.repo.RecordRepo;
+import com.rssb.fileManager.repo.RecordRepoRedis;
 import com.rssb.fileManager.utils.ExcelHelper;
 import com.rssb.fileManager.utils.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +16,21 @@ import java.util.Map;
 @Service
 public class ExcelService {
 
-    UserRepoRedis userRepoRedis;
-    UserRepo userRepo;
+    RecordRepoRedis recordRepoRedis;
+    RecordRepo recordRepo;
 
     @Autowired
-    public ExcelService(UserRepoRedis userRepoRedis, UserRepo userRepo) {
-        this.userRepo = userRepo;
-        this.userRepoRedis = userRepoRedis;
+    public ExcelService(RecordRepoRedis recordRepoRedis, RecordRepo recordRepo) {
+        this.recordRepo = recordRepo;
+        this.recordRepoRedis = recordRepoRedis;
     }
 
     public void SaveToDB() {
         try {
-            List<User> users = (List<User>) this.getAllUsers().get("data");
+            List<Record> users = (List<Record>) this.getAllUsers().get("data");
             if (users==null)
                 throw new RuntimeException("No Users found in the memory");
-            userRepo.saveAll(users);
+            recordRepo.saveAll(users);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -38,9 +38,9 @@ public class ExcelService {
 
     public void saveToRedis(MultipartFile file) {
         try {
-            List<User> users = ExcelHelper.excelParser(file.getInputStream());
-            List<User> validatedUsers = new ArrayList<>();
-            for (User user: users){
+            List<Record> users = ExcelHelper.excelParser(file.getInputStream());
+            List<Record> validatedUsers = new ArrayList<>();
+            for (Record user: users){
                 List<String> possibleErrors = new ArrayList<>();
                 if(!Validators.isValidEmailAddress(user.getEmail())){
                     possibleErrors.add("Invalid Email {"+user.getEmail()+"}");
@@ -57,14 +57,14 @@ public class ExcelService {
                 user.setErrors(possibleErrors);
                 validatedUsers.add(user);
             }
-            userRepoRedis.saveToRedis(validatedUsers);
+            recordRepoRedis.saveToRedis(validatedUsers);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
     public Map<Object, Object> getAllUsers() {
         try {
-           return userRepoRedis.findFromRedis();
+           return recordRepoRedis.findFromRedis();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

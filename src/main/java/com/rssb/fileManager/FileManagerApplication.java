@@ -8,9 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
@@ -23,6 +25,8 @@ public class FileManagerApplication {
 	static private Environment env;
 
 	static Logger logger = LoggerFactory.getLogger(FileManagerApplication.class);
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(FileManagerApplication.class, args);
 		System.out.println(System.getenv("REDIS_URL"));

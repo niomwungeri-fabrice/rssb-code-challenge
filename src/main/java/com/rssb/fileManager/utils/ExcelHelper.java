@@ -1,6 +1,6 @@
 package com.rssb.fileManager.utils;
 
-import com.rssb.fileManager.model.User;
+import com.rssb.fileManager.model.Record;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,14 +21,14 @@ public class ExcelHelper {
     public static boolean hasExcelFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
-    public static List<User> excelParser(InputStream is) {
+    public static List<Record> excelParser(InputStream is) {
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<User> tutorials = new ArrayList<User>();
+            List<Record> tutorials = new ArrayList<Record>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -42,7 +42,7 @@ public class ExcelHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                User user = new User();
+                Record user = new Record();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {

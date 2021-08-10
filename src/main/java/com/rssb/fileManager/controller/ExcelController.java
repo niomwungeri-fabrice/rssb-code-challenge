@@ -2,7 +2,7 @@ package com.rssb.fileManager.controller;
 
 
 import com.rssb.fileManager.exception.HttpResponseHandler;
-import com.rssb.fileManager.model.User;
+import com.rssb.fileManager.model.Record;
 import com.rssb.fileManager.response.ResponseMessage;
 import com.rssb.fileManager.service.ExcelService;
 import com.rssb.fileManager.utils.ExcelHelper;
@@ -42,7 +42,7 @@ public class ExcelController {
     @GetMapping("/users")
     public ResponseEntity<Object> getUsers() {
         try {
-            List<User> users = Pagination.getPage((List<User>) fileService.getAllUsers().get("data"), 1, 10);
+            List<Record> users = Pagination.getPage((List<Record>) fileService.getAllUsers().get("data"), 1, 10);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),

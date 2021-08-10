@@ -1,6 +1,6 @@
 package com.rssb.fileManager.repo;
 
-import com.rssb.fileManager.model.User;
+import com.rssb.fileManager.model.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class UserRepoRedisImpl implements UserRepoRedis{
+public class RecordRepoRedisImpl implements RecordRepoRedis {
     private static final String KEY = "users";
 
 
@@ -19,7 +19,7 @@ public class UserRepoRedisImpl implements UserRepoRedis{
     private HashOperations hashOperations;
 
     @Autowired
-    public UserRepoRedisImpl(RedisTemplate redisTemplate) {
+    public RecordRepoRedisImpl(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -29,7 +29,7 @@ public class UserRepoRedisImpl implements UserRepoRedis{
     }
 
     @Override
-    public void saveToRedis(List<User> users) {
+    public void saveToRedis(List<Record> users) {
         hashOperations.put(KEY, "data", users);
     }
 
