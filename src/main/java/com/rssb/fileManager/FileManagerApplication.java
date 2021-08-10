@@ -25,6 +25,7 @@ public class FileManagerApplication {
 	static Logger logger = LoggerFactory.getLogger(FileManagerApplication.class);
 	public static void main(String[] args) {
 		SpringApplication.run(FileManagerApplication.class, args);
+		System.out.println(System.getenv("REDIS_URL"));
 //		logger.info("Deleting Data in Redis....Started");
 //
 //		JedisShardInfo shardInfo = new JedisShardInfo("localhost", 6379);
