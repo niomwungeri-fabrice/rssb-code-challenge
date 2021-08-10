@@ -1,5 +1,7 @@
 package com.rssb.fileManager.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +23,7 @@ import java.util.Objects;
 @ComponentScan("com.rssb.fileManager")
 @PropertySource("classpath:config/redis.properties")
 public class RedisConfig {
-
+    Logger logger = LoggerFactory.getLogger(RedisConfig.class);
     @Autowired
     private Environment env;
 
@@ -29,9 +31,13 @@ public class RedisConfig {
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory jedisConnectionFactory = null;
         try {
+
+            String redisHost =Objects.requireNonNull(env.getProperty("redis.host"));
+            int redisPort = Integer.parseInt(Objects.requireNonNull(env.getProperty("redis.port")));
+            String redisPassword = Objects.requireNonNull(env.getProperty("redis.password"));
             JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-            RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(Objects.requireNonNull(env.getProperty("redis.host")), Integer.parseInt(Objects.requireNonNull(env.getProperty("redis.port"))));
-            redisStandaloneConfiguration.setPassword(RedisPassword.of(Objects.requireNonNull(env.getProperty("redis.password"))));
+            RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost,redisPort );
+            redisStandaloneConfiguration.setPassword(RedisPassword.of(redisPassword));
             jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
             jedisConnectionFactory.getPoolConfig().setMaxTotal(128);
             jedisConnectionFactory.getPoolConfig().setMaxIdle(5);
@@ -41,7 +47,7 @@ public class RedisConfig {
             jedisConnectionFactory.getPoolConfig().setTestWhileIdle(true);
 
             JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
-            jedisClientConfiguration.connectTimeout(Duration.ofSeconds(60));// 60s connection timeout
+            jedisClientConfiguration.connectTimeout(Duration.ofSeconds(60));
 
         }catch (Exception e ){
             throw new RuntimeException("Cannot obtain Redis connection!", e.getCause());
