@@ -1,106 +1,85 @@
 package com.rssb.fileManager.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
-
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "user_id")
     private final UUID userId = UUID.randomUUID();
-    @Column(name = "names")
-    private String names;
-    @Column(name = "nid")
-    private String  nationalId;
-    @Column(name = "phone_number")
-    private String phoneNumber;
-    @Column(name = "gender")
-    private String gender;
-    @Column(name = "email")
-    private String email;
-    @Transient
-    private List<String> errors;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "full_name")
+    private String fullName;
+    @Column(name = "is_active")
+    @JsonIgnore
+    private boolean isActive = true;
+    @Column(name="roles")
+    private String roles;
 
-    public User() {
+    public String getRoles() {
+        return roles;
     }
 
-//    public User(String names, String nationalId, String phoneNumber, String gender, String email) {
-//        this.names = names;
-//        this.nationalId = nationalId;
-//        this.phoneNumber = phoneNumber;
-//        this.gender = gender;
-//        this.email = email;
-//    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
-    }
-
-    public String getNationalId() {
-        return nationalId;
-    }
-
-    public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", names='" + names + '\'' +
-                ", nationalId='" + nationalId + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", gender='" + gender + '\'' +
-                ", email='" + email + '\'' +
-                ", errors=" + errors +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", isActive=" + isActive +
+                ", roles='" + roles + '\'' +
                 '}';
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 }

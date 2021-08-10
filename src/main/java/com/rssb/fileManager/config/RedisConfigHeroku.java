@@ -50,7 +50,6 @@ public class RedisConfigHeroku {
                 .usePooling()
                 .poolConfig(jedisPoolConfig)
                 .build();
-//        JedisConnectionFactory factory = new JedisConnectionFactory(hostConfig, clientConfig);
         return new JedisConnectionFactory(hostConfig, clientConfig);
     }
 

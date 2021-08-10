@@ -1,6 +1,6 @@
 package com.rssb.fileManager.utils;
 
-import com.rssb.fileManager.model.User;
+import com.rssb.fileManager.model.Record;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,14 +21,14 @@ public class ExcelHelper {
     public static boolean hasExcelFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
-    public static List<User> excelParser(InputStream is) {
+    public static List<Record> excelParser(InputStream is) {
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<User> tutorials = new ArrayList<User>();
+            List<Record> records = new ArrayList<Record>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -42,7 +42,7 @@ public class ExcelHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                User user = new User();
+                Record record = new Record();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -50,22 +50,22 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            user.setNames(currentCell.getStringCellValue());
+                            record.setNames(currentCell.getStringCellValue());
                             break;
 
                         case 1:
-                            user.setNationalId(currentCell.getStringCellValue());
+                            record.setNationalId(currentCell.getStringCellValue());
                             break;
 
                         case 2:
-                            user.setPhoneNumber(currentCell.getStringCellValue());
+                            record.setPhoneNumber(currentCell.getStringCellValue());
                             break;
 
                         case 3:
-                            user.setGender(currentCell.getStringCellValue());
+                            record.setGender(currentCell.getStringCellValue());
                             break;
                         case 4:
-                            user.setEmail(currentCell.getStringCellValue());
+                            record.setEmail(currentCell.getStringCellValue());
                             break;
 
                         default:
@@ -75,12 +75,12 @@ public class ExcelHelper {
                     cellIdx++;
                 }
 
-                tutorials.add(user);
+                records.add(record);
             }
 
             workbook.close();
 
-            return tutorials;
+            return records;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }

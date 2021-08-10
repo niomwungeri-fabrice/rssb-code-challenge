@@ -1,11 +1,10 @@
 package com.rssb.fileManager.repo;
 
-import com.rssb.fileManager.model.User;
+import com.rssb.fileManager.model.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface UserRepo extends JpaRepository<User, UUID> {
+public interface RecordRepo extends JpaRepository<Record, UUID> {
 
 }
