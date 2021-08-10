@@ -32,9 +32,21 @@ public class Record implements Serializable {
     public Record() {
     }
 
-
-    public UUID getUserId() {
+    public UUID getRecordId() {
         return recordId;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "recordId=" + recordId +
+                ", names='" + names + '\'' +
+                ", nationalId='" + nationalId + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", email='" + email + '\'' +
+                ", errors=" + errors +
+                '}';
     }
 
     public String getNames() {
@@ -85,16 +97,5 @@ public class Record implements Serializable {
         this.errors = errors;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + recordId +
-                ", names='" + names + '\'' +
-                ", nationalId='" + nationalId + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", gender='" + gender + '\'' +
-                ", email='" + email + '\'' +
-                ", errors=" + errors +
-                '}';
-    }
+
 }

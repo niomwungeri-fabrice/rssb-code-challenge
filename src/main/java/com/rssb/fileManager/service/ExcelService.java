@@ -38,26 +38,26 @@ public class ExcelService {
 
     public void saveToRedis(MultipartFile file) {
         try {
-            List<Record> users = ExcelHelper.excelParser(file.getInputStream());
-            List<Record> validatedUsers = new ArrayList<>();
-            for (Record user: users){
+            List<Record> records = ExcelHelper.excelParser(file.getInputStream());
+            List<Record> validatedRecords = new ArrayList<>();
+            for (Record record: records){
                 List<String> possibleErrors = new ArrayList<>();
-                if(!Validators.isValidEmailAddress(user.getEmail())){
-                    possibleErrors.add("Invalid Email {"+user.getEmail()+"}");
+                if(!Validators.isValidEmailAddress(record.getEmail())){
+                    possibleErrors.add("Invalid Email {"+record.getEmail()+"}");
                 }
-                if(!Validators.isGenderValid(user.getGender())){
-                    possibleErrors.add("Invalid Gender {"+user.getGender()+"}");
+                if(!Validators.isGenderValid(record.getGender())){
+                    possibleErrors.add("Invalid Gender {"+record.getGender()+"}");
                 }
-                if(Validators.isPhoneNumberValid(user.getPhoneNumber())){
-                    possibleErrors.add("Invalid Phone {"+user.getPhoneNumber()+"}");
+                if(Validators.isPhoneNumberValid(record.getPhoneNumber())){
+                    possibleErrors.add("Invalid Phone {"+record.getPhoneNumber()+"}");
                 }
-                if(Validators.isNationalIdValid(user.getNationalId())){
-                    possibleErrors.add("Invalid NID {"+user.getNationalId()+"}");
+                if(Validators.isNationalIdValid(record.getNationalId())){
+                    possibleErrors.add("Invalid NID {"+record.getNationalId()+"}");
                 }
-                user.setErrors(possibleErrors);
-                validatedUsers.add(user);
+                record.setErrors(possibleErrors);
+                validatedRecords.add(record);
             }
-            recordRepoRedis.saveToRedis(validatedUsers);
+            recordRepoRedis.saveToRedis(validatedRecords);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -28,7 +28,7 @@ public class ExcelHelper {
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<Record> tutorials = new ArrayList<Record>();
+            List<Record> records = new ArrayList<Record>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -42,7 +42,7 @@ public class ExcelHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                Record user = new Record();
+                Record record = new Record();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -50,22 +50,22 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            user.setNames(currentCell.getStringCellValue());
+                            record.setNames(currentCell.getStringCellValue());
                             break;
 
                         case 1:
-                            user.setNationalId(currentCell.getStringCellValue());
+                            record.setNationalId(currentCell.getStringCellValue());
                             break;
 
                         case 2:
-                            user.setPhoneNumber(currentCell.getStringCellValue());
+                            record.setPhoneNumber(currentCell.getStringCellValue());
                             break;
 
                         case 3:
-                            user.setGender(currentCell.getStringCellValue());
+                            record.setGender(currentCell.getStringCellValue());
                             break;
                         case 4:
-                            user.setEmail(currentCell.getStringCellValue());
+                            record.setEmail(currentCell.getStringCellValue());
                             break;
 
                         default:
@@ -75,12 +75,12 @@ public class ExcelHelper {
                     cellIdx++;
                 }
 
-                tutorials.add(user);
+                records.add(record);
             }
 
             workbook.close();
 
-            return tutorials;
+            return records;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }

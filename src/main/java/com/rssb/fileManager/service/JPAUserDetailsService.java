@@ -33,9 +33,9 @@ public class JPAUserDetailsService implements UserDetailsService {
 //        if (exists){
 //            throw new RuntimeException("User already Exist");
 //        }
-//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String encodedPassword = passwordEncoder.encode(userAuth.getPassword());
-//        userAuth.setPassword("{noop}"+encodedPassword);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(userAuth.getPassword());
+        userAuth.setPassword(encodedPassword);
         userAuthRepo.save(userAuth);
     }
 
@@ -45,7 +45,6 @@ public class JPAUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findByUsername(userName);
         user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userName));
         return user.map(MyUserDetails::new).get();
-//        return new User("foo","foo",new ArrayList<>());
     }
 
 }
