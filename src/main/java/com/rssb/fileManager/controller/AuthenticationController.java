@@ -59,7 +59,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                    HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -73,7 +73,7 @@ public class AuthenticationController {
                     HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                    HttpStatus.BAD_REQUEST);
         }
     }
 

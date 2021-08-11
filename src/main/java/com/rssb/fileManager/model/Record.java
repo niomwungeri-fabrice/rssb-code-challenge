@@ -34,6 +34,14 @@ public class Record implements Serializable {
     public Record() {
     }
 
+    public Record(String names, String nationalId, String phoneNumber, String gender, String email) {
+        this.names = names;
+        this.nationalId = nationalId;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.email = email;
+    }
+
     public UUID getRecordId() {
         return recordId;
     }

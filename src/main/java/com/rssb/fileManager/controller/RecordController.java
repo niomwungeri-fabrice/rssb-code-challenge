@@ -33,17 +33,27 @@ public class RecordController {
             return new ResponseEntity<>(records, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
 
     @GetMapping("/db/records")
     public ResponseEntity<?> getAllRecords(@RequestParam(value="pageNumber" , required = false)Integer pageNumber, @RequestParam(value="pageSize" , required = false)Integer pageSize) {
-        if(pageNumber == null) pageNumber = 1;
-        if(pageSize == null) pageSize = 20;
-        List<Record> records = Pagination.getPage(jpaRecordDetailsService.getAllRecords(), pageNumber, pageSize);
-        return new ResponseEntity<>(records, HttpStatus.OK);
+       try {
+           if(pageNumber == null) pageNumber = 1;
+           if(pageSize == null) pageSize = 20;
+           List<Record> records = Pagination.getPage(jpaRecordDetailsService.getAllRecords(), pageNumber, pageSize);
+           return new ResponseEntity<>(records, HttpStatus.OK);
+       }catch (Exception e){
+           return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
+                   HttpStatus.BAD_REQUEST);
+       }
     }
+
+    // DELETE FROM REDIS
+    // INSERT ERROR FREE RECORDS ONLY
+    // GET SPECIFIC RECORD
+
 
 }
