@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
@@ -48,7 +47,7 @@ public class ExcelController {
                     HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                    HttpStatus.BAD_REQUEST);
         }
     }
 }
