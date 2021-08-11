@@ -1,5 +1,7 @@
 package com.rssb.fileManager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -25,8 +27,8 @@ public class Record implements Serializable {
     private String gender;
     @Column(name = "email")
     private String email;
-
     @Transient
+    @JsonIgnore
     private List<String> errors;
 
     public Record() {

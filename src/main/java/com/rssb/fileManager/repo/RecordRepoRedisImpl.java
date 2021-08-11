@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Repository
 public class RecordRepoRedisImpl implements RecordRepoRedis {
-    private static final String KEY = "users";
+    private static final String KEY = "records";
 
 
     private RedisTemplate redisTemplate;
@@ -29,8 +29,8 @@ public class RecordRepoRedisImpl implements RecordRepoRedis {
     }
 
     @Override
-    public void saveToRedis(List<Record> users) {
-        hashOperations.put(KEY, "data", users);
+    public void saveToRedis(List<Record> records) {
+        hashOperations.put(KEY, "data", records);
     }
 
     @Override
