@@ -1,4 +1,4 @@
-package com.rssb.fileManager.model;
+package com.rssb.fileManager.pojo;
 
 import java.io.Serializable;
 

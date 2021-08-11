@@ -3,7 +3,6 @@ package com.rssb.fileManager.controller;
 
 import com.rssb.fileManager.exception.HttpResponseHandler;
 import com.rssb.fileManager.model.Record;
-import com.rssb.fileManager.response.ResponseMessage;
 import com.rssb.fileManager.service.ExcelService;
 import com.rssb.fileManager.utils.ExcelHelper;
 import com.rssb.fileManager.utils.Pagination;
@@ -16,38 +15,29 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/excel")
+@RequestMapping("/v1")
 public class ExcelController {
     @Autowired
     ExcelService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         if (ExcelHelper.hasExcelFormat(file)) {
             try {
                 fileService.saveToRedis(file);
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                return new ResponseEntity<>(HttpResponseHandler.responseHandler("message", message),
+                        HttpStatus.OK);
             } catch (Exception e) {
-                e.printStackTrace();
                 message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+                return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message),
+                        HttpStatus.BAD_REQUEST);
             }
         }
         message = "Please upload an excel file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<Object> getUsers() {
-        try {
-            List<Record> users = Pagination.getPage((List<Record>) fileService.getAllUsers().get("data"), 1, 10);
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message),
+                HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/commit")

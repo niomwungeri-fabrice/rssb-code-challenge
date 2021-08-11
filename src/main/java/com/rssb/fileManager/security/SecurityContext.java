@@ -1,4 +1,4 @@
-package com.rssb.fileManager.config;
+package com.rssb.fileManager.security;
 
 import com.rssb.fileManager.filter.JwtRequestFilter;
 import com.rssb.fileManager.service.JPAUserDetailsService;
@@ -11,19 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-//import com.example.filter.JwtRequestFilter;
 
 
 @EnableWebSecurity
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    //private UserDetailsService myUserDetailsService;
     private JPAUserDetailsService myUserDetailsService;
 
     @Autowired
@@ -52,9 +49,11 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().disable().csrf().disable()
-                .authorizeRequests().antMatchers("/v1/create").permitAll()
-                .antMatchers("/v1/login").permitAll().
-                anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/v1/create").permitAll()
+                .antMatchers("/v1/login").permitAll()
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
                 .and().
                 exceptionHandling().
                 and().sessionManagement()
