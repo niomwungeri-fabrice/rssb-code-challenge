@@ -12,7 +12,7 @@ This application this project helps in managing data imported from excel where i
 
 - `mvn 3.x.x`
 - `JDK 11`
-- `REDIS 6.x.x`
+- `Redis 6.x.x`
 - `PostGreSQl 13.x.x`
 
 
@@ -33,6 +33,10 @@ $ mvn spring-boot:run
 ## API Documentation
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/11352687/Tzz5tyQA)
+
+##  Dummy Data
+
+Use the file in the `root` directory or create another with the same format.
 
 ## Available Functionalities
 

@@ -21,23 +21,30 @@ public class ExcelController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        if (ExcelHelper.hasExcelFormat(file)) {
-            try {
-                fileService.saveToRedis(file);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return new ResponseEntity<>(HttpResponseHandler.responseHandler("message", message),
-                        HttpStatus.OK);
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message),
-                        HttpStatus.BAD_REQUEST);
-            }
-        }
-        message = "Please upload an excel file!";
-        return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message),
-                HttpStatus.BAD_REQUEST);
-    }
+        try {
+            String message = "";
+            if (ExcelHelper.hasExcelFormat(file)) {
+                try {
+                    fileService.saveToRedis(file);
+                    message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                    return new ResponseEntity<>(HttpResponseHandler.responseHandler("message", message),
+                            HttpStatus.OK);
+                } catch (Exception e) {
 
+                    message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                    return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message+"Because, "+e.getMessage()),
+                            HttpStatus.BAD_REQUEST);
+                }
+            }
+            message = "Please upload an excel file!";
+            return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", message),
+                    HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
