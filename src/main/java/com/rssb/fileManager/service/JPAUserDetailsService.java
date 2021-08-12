@@ -20,32 +20,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class JPAUserDetailsService implements UserDetailsService {
 
+    Logger logger = LoggerFactory.getLogger(JPAUserDetailsService.class);
+
     @Autowired
     UserAuthRepo userRepository;
-
-    Logger logger = LoggerFactory.getLogger(JPAUserDetailsService.class);
 
 
     @Autowired
     private UserAuthRepo userAuthRepo;
 
     public void createUser (User userAuth) throws Exception {
-        Optional<User> user = userAuthRepo.findByUsername(userAuth.getUsername());
-        if (user.isPresent()){
-            throw new RuntimeException("User already Exist");
-        }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(userAuth.getPassword());
-        userAuth.setPassword(encodedPassword);
-        userAuthRepo.save(userAuth);
+       try {
+           Optional<User> user = userAuthRepo.findByUsername(userAuth.getUsername());
+           if (user.isPresent()){
+               throw new RuntimeException("User already Exist");
+           }
+           PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+           String encodedPassword = passwordEncoder.encode(userAuth.getPassword());
+           userAuth.setPassword(encodedPassword);
+           userAuthRepo.save(userAuth);
+       }catch (Exception e){
+           throw new RuntimeException(e.getMessage());
+       }
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(userName);
-        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userName));
-        return user.map(MyUserDetails::new).get();
+       try {
+           Optional<User> user = userRepository.findByUsername(userName);
+           user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userName));
+           return user.map(MyUserDetails::new).get();
+       }catch (Exception e){
+           throw new RuntimeException(e.getMessage());
+       }
     }
 
 }

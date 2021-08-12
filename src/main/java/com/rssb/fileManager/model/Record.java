@@ -28,7 +28,7 @@ public class Record implements Serializable {
     @Column(name = "email")
     private String email;
     @Transient
-    @JsonIgnore
+//    @JsonIgnore
     private List<String> errors;
 
     public Record() {

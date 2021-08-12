@@ -11,15 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class RecordRepoRedisImpl implements RecordRepoRedis {
+public class RepoRedis {
     private static final String KEY = "records";
-
 
     private RedisTemplate redisTemplate;
     private HashOperations hashOperations;
 
     @Autowired
-    public RecordRepoRedisImpl(RedisTemplate redisTemplate) {
+    public RepoRedis(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -28,13 +27,18 @@ public class RecordRepoRedisImpl implements RecordRepoRedis {
         hashOperations = redisTemplate.opsForHash();
     }
 
-    @Override
+
     public void saveToRedis(List<Record> records) {
         hashOperations.put(KEY, "data", records);
     }
 
-    @Override
+
     public Map<Object, Object> findFromRedis() {
         return hashOperations.entries(KEY);
+    }
+
+
+    public void deleteFromRedis() {
+        hashOperations.delete(KEY, "data");
     }
 }

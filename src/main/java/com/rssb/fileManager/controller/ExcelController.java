@@ -39,16 +39,5 @@ public class ExcelController {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/commit")
-    public ResponseEntity<Object> commitToDB() {
-        try {
-            fileService.SaveToDB();
-            return new ResponseEntity<>(HttpResponseHandler.responseHandler("message", "Users Created To DataBase Successfully"),
-                    HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpResponseHandler.responseHandler("error", e.getMessage()),
-                    HttpStatus.BAD_REQUEST);
-        }
-    }
 }
 
