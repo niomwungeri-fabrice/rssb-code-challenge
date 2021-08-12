@@ -40,7 +40,11 @@ public class Validators {
     }
 
     public static boolean isGenderValid(String gender) {
-        return EnumUtils.isValidEnum(Level.class, gender.toUpperCase().trim());
+        try {
+            return EnumUtils.isValidEnum(Level.class, gender.toUpperCase().trim());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isValidEmailAddress(String email) {
