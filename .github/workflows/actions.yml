@@ -10,6 +10,22 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     name: Running Java ${{ matrix.java }} compile
+    container: node:10.18-jessie
+      # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -18,6 +34,13 @@ jobs:
           java-version: 11
       - name: Compile code
         run: mvn compile
+      name: Connect to PostgreSQL
+        # Environment variables used by the `client.js` script to create a new PostgreSQL table.
+        env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: postgres
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
 
   test:
     runs-on: ubuntu-latest
