@@ -62,7 +62,7 @@ Use the file in the `root` directory or create another with the same format.
 
     ## Project built with:
 
-- [`Java`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) The Spring Framework is an application framework and inversion of control container for the Java platform. The framework's core features can be used by any Java application, but there are extensions for building web applications on top of the Java EE platform.
+- [`Java`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.
 - [`Spring Boot`](https://spring.io/projects/spring-boot) The Spring Framework is an application framework and inversion of control container for the Java platform. The framework's core features can be used by any Java application, but there are extensions for building web applications on top of the Java EE platform.
 - [`Hibernate`](https://hibernate.org/) Hibernate ORM is an object–relational mapping tool for the Java programming language. It provides a framework for mapping an object-oriented domain model to a relational database.
 - [`PostgreSql`](https://www.postgresql.org/) PostgreSQL, also known as Postgres, is a free and open-source relational database management system emphasizing extensibility and SQL compliance. 
